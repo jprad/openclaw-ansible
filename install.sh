@@ -27,12 +27,19 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║   Clawdbot Ansible Installer          ║${NC}"
-echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
 echo ""
 
-# Check if running on Debian/Ubuntu
-if ! command -v apt-get &> /dev/null; then
-    echo -e "${RED}Error: This installer only supports Debian/Ubuntu systems.${NC}"
+# Detect operating system
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS_TYPE="macos"
+    echo -e "${GREEN}Detected: macOS${NC}"
+elif command -v apt-get &> /dev/null; then
+    OS_TYPE="linux"
+    echo -e "${GREEN}Detected: Debian/Ubuntu Linux${NC}"
+else
+    echo -e "${RED}Error: Unsupported operating system.${NC}"
+    echo -e "${RED}This installer supports: Debian/Ubuntu and macOS${NC}"
     exit 1
 fi
 

@@ -16,3 +16,18 @@ clawdbot_config_dir: "{{ clawdbot_home }}/.clawdbot"
 # User settings (will be created as system user)
 clawdbot_user: clawdbot
 clawdbot_home: /home/clawdbot
+
+# OS-specific settings (set dynamically in tasks)
+homebrew_prefix: "{{ '/opt/homebrew' if ansible_os_family == 'Darwin' else '/home/linuxbrew/.linuxbrew' }}"
+package_manager: "{{ 'brew' if ansible_os_family == 'Darwin' else 'apt' }}"
+
+# Installation mode: 'release' or 'development'
+# release: Install via pnpm install -g clawdbot@latest
+# development: Clone repo, build from source, link globally
+clawdbot_install_mode: "release"
+
+# Development mode settings (only used when clawdbot_install_mode: development)
+clawdbot_repo_url: "https://github.com/clawdbot/clawdbot.git"
+clawdbot_repo_branch: "main"
+clawdbot_code_dir: "{{ clawdbot_home }}/code"
+clawdbot_repo_dir: "{{ clawdbot_code_dir }}/clawdbot"

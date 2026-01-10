@@ -8,15 +8,29 @@ Type=simple
 User={{ clawdbot_user }}
 Group={{ clawdbot_user }}
 WorkingDirectory={{ clawdbot_home }}
-Environment="PATH={{ clawdbot_home }}/.local/bin:/usr/local/bin:/usr/bin:/bin"
+
+# Environment variables
+Environment="PATH={{ clawdbot_home }}/.local/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin"
 Environment="PNPM_HOME={{ clawdbot_home }}/.local/share/pnpm"
+Environment="HOME={{ clawdbot_home }}"
+Environment="XDG_RUNTIME_DIR=/run/user/1000"
+
+# DBus session bus
+Environment="DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
+
+# Start command
 ExecStart={{ clawdbot_home }}/.local/bin/clawdbot gateway
+
+# Restart policy
 Restart=always
 RestartSec=10
 
-# Security
+# Security hardening
 NoNewPrivileges=true
 PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths={{ clawdbot_home }}/.clawdbot
 
 # Logging
 StandardOutput=journal

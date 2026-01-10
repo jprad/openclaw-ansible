@@ -3,23 +3,42 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lint](https://github.com/pasogott/clawdbot-ansible/actions/workflows/lint.yml/badge.svg)](https://github.com/pasogott/clawdbot-ansible/actions/workflows/lint.yml)
 [![Ansible](https://img.shields.io/badge/Ansible-2.14+-blue.svg)](https://www.ansible.com/)
-[![Debian/Ubuntu](https://img.shields.io/badge/OS-Debian%2FUbuntu-orange.svg)](https://www.debian.org/)
+[![Multi-OS](https://img.shields.io/badge/OS-Debian%20%7C%20Ubuntu%20%7C%20macOS-orange.svg)](https://www.debian.org/)
 
-Automated, hardened installation of [Clawdbot](https://github.com/clawdbot/clawdbot) in Docker with firewall isolation and Tailscale VPN.
+Automated, hardened installation of [Clawdbot](https://github.com/clawdbot/clawdbot) with Docker, Homebrew, and Tailscale VPN support for Linux and macOS.
 
 ## Features
 
-- 🔒 **Firewall-first**: UFW + Docker isolation (only SSH + Tailscale accessible)
+- 🔒 **Firewall-first**: UFW (Linux) + Application Firewall (macOS) + Docker isolation
 - 🔐 **Tailscale VPN**: Secure remote access without exposing services
-- 🐳 **Docker**: Isolated containers, localhost-only bindings
-- 🛡️ **Defense in depth**: 4-layer security architecture
+- 🍺 **Homebrew**: Package manager for both Linux and macOS
+- 🐳 **Docker**: Docker CE (Linux) / Docker Desktop (macOS)
+- 🛡️ **Multi-OS Support**: Debian, Ubuntu, and macOS
 - 🚀 **One-command install**: Complete setup in minutes
-- 🔧 **Systemd integration**: Auto-start on boot
+- 🔧 **Auto-configuration**: DBus, systemd, environment setup
+- 📦 **pnpm installation**: Uses `pnpm install -g clawdbot@latest`
 
 ## Quick Start
 
+### Release Mode (Recommended)
+
+Install the latest stable version from npm:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/pasogott/clawdbot-ansible/main/install.sh | bash
+```
+
+### Development Mode
+
+Install from source for development or testing:
+
+```bash
+# Clone the installer
+git clone https://github.com/pasogott/clawdbot-ansible.git
+cd clawdbot-ansible
+
+# Install in development mode
+ansible-playbook playbook.yml --ask-become-pass -e clawdbot_install_mode=development
 ```
 
 ## What Gets Installed
@@ -36,29 +55,60 @@ curl -fsSL https://raw.githubusercontent.com/pasogott/clawdbot-ansible/main/inst
 After installation completes, switch to the clawdbot user:
 
 ```bash
-sudo -i -u clawdbot
+sudo su - clawdbot
 ```
 
-This will show you the next steps for:
-- Configuring Clawdbot
-- Logging into your messaging provider (WhatsApp/Telegram/Signal)
-- Testing the gateway
-- Connecting Tailscale
-
-You can also manage the service:
+Then run the quick-start onboarding wizard:
 
 ```bash
-# Check status
-sudo systemctl status clawdbot
-
-# View logs
-sudo journalctl -u clawdbot -f
-clawdbot login
-
-# 4. Check status
-sudo systemctl status clawdbot
-sudo journalctl -u clawdbot -f
+clawdbot onboard --install-daemon
 ```
+
+This will:
+- Guide you through the setup wizard
+- Configure your messaging provider (WhatsApp/Telegram/Signal)
+- Install and start the daemon service
+
+### Alternative Manual Setup
+
+```bash
+# Configure manually
+clawdbot configure
+
+# Login to provider
+clawdbot providers login
+
+# Test gateway
+clawdbot gateway
+
+# Install as daemon
+clawdbot daemon install
+clawdbot daemon start
+
+# Check status
+clawdbot status
+clawdbot logs
+```
+
+## Installation Modes
+
+### Release Mode (Default)
+- Installs via `pnpm install -g clawdbot@latest`
+- Gets latest stable version from npm registry
+- Automatic updates via `pnpm install -g clawdbot@latest`
+- **Recommended for production**
+
+### Development Mode
+- Clones from `https://github.com/clawdbot/clawdbot.git`
+- Builds from source with `pnpm build`
+- Symlinks binary to `~/.local/bin/clawdbot`
+- Adds helpful aliases:
+  - `clawdbot-rebuild` - Rebuild after code changes
+  - `clawdbot-dev` - Navigate to repo directory
+  - `clawdbot-pull` - Pull, install deps, and rebuild
+- **Recommended for development and testing**
+
+Enable with: `-e clawdbot_install_mode=development`
 
 ## Security
 
@@ -79,11 +129,40 @@ Verify: `nmap -p- YOUR_SERVER_IP` should show only port 22 open.
 
 ## Requirements
 
+### Linux (Debian/Ubuntu)
 - Debian 11+ or Ubuntu 20.04+
 - Root/sudo access
 - Internet connection
 
+### macOS
+- macOS 11 (Big Sur) or later
+- Homebrew will be installed automatically
+- Admin/sudo access
+- Internet connection
+
+## What Gets Installed
+
+### Common (All OS)
+- Homebrew package manager
+- Node.js 22.x + pnpm
+- Clawdbot via `pnpm install -g clawdbot@latest`
+- Essential development tools
+- Git, zsh, oh-my-zsh
+
+### Linux-Specific
+- Docker CE + Compose V2
+- UFW firewall (configured)
+- Tailscale VPN
+- systemd service
+
+### macOS-Specific
+- Docker Desktop (via Homebrew Cask)
+- Application Firewall
+- Tailscale app
+
 ## Manual Installation
+
+### Release Mode (Default)
 
 ```bash
 # Install dependencies
@@ -96,12 +175,27 @@ cd clawdbot-ansible
 # Install Ansible collections
 ansible-galaxy collection install -r requirements.yml
 
-# Run installation (automatically switches to clawdbot user after completion)
+# Run installation
 ./run-playbook.sh
-
-# Or run playbook directly (then manually run /tmp/clawdbot-setup.sh after)
-# ansible-playbook playbook.yml --ask-become-pass
 ```
+
+### Development Mode
+
+Build from source for development:
+
+```bash
+# Same as above, but with development mode flag
+./run-playbook.sh -e clawdbot_install_mode=development
+
+# Or directly:
+ansible-playbook playbook.yml --ask-become-pass -e clawdbot_install_mode=development
+```
+
+This will:
+- Clone clawdbot repo to `~/code/clawdbot`
+- Run `pnpm install` and `pnpm build`
+- Symlink binary to `~/.local/bin/clawdbot`
+- Add development aliases to `.bashrc`
 
 ## License
 
