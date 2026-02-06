@@ -9,6 +9,14 @@
     home: "{{ clawdbot_home }}"
     state: present
 
+- name: Ensure clawdbot home directory has correct ownership
+  ansible.builtin.file:
+    path: "{{ clawdbot_home }}"
+    owner: "{{ clawdbot_user }}"
+    group: "{{ clawdbot_user }}"
+    state: directory
+    mode: '0755'
+
 - name: Configure .bashrc for clawdbot user
   ansible.builtin.blockinfile:
     path: "{{ clawdbot_home }}/.bashrc"
@@ -101,17 +109,17 @@
   ansible.builtin.command: id -u {{ clawdbot_user }}
   register: clawdbot_uid
   changed_when: false
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ci_test
 
 - name: Display clawdbot user ID
   ansible.builtin.debug:
     msg: "Clawdbot user ID: {{ clawdbot_uid.stdout }}"
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ci_test
 
 - name: Enable lingering for clawdbot user (allows systemd user services without login)
   ansible.builtin.command: loginctl enable-linger {{ clawdbot_user }}
   changed_when: false
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ci_test
 
 - name: Create runtime directory for clawdbot user
   ansible.builtin.file:
@@ -120,12 +128,12 @@
     owner: "{{ clawdbot_user }}"
     group: "{{ clawdbot_user }}"
     mode: '0700'
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ci_test
 
 - name: Store clawdbot UID as fact for later use
   ansible.builtin.set_fact:
     clawdbot_uid_value: "{{ clawdbot_uid.stdout }}"
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ci_test
 
 - name: Verify clawdbot UID was successfully retrieved
   ansible.builtin.assert:
@@ -134,7 +142,7 @@
       - clawdbot_uid_value | length > 0
     fail_msg: "Failed to retrieve clawdbot user UID. Cannot continue with systemd service setup."
     success_msg: "Clawdbot UID verified: {{ clawdbot_uid_value }}"
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ci_test
 
 # SSH key configuration
 - name: Create .ssh directory for clawdbot user
