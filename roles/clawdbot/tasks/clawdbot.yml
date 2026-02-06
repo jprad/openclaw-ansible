@@ -1,4 +1,11 @@
 ---
+- name: Validate clawdbot_install_mode
+  ansible.builtin.assert:
+    that:
+      - clawdbot_install_mode in ["release", "development"]
+    fail_msg: "Invalid clawdbot_install_mode: '{{ clawdbot_install_mode }}'. Must be 'release' or 'development'."
+    success_msg: "Valid install mode: {{ clawdbot_install_mode }}"
+
 - name: Create Clawdbot directories (structure only, no config files)
   ansible.builtin.file:
     path: "{{ item.path }}"

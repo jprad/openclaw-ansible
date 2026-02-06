@@ -173,27 +173,12 @@ These variables only apply when `clawdbot_install_mode: development`
 - **Type**: String
 - **Default**: `""` (empty - manual setup required)
 - **Description**: Tailscale authentication key for automatic connection
+- **Security**: Tasks using this variable must set `no_log: true`
 - **Example**:
   ```bash
   -e tailscale_authkey=tskey-auth-k1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6
   ```
 - **Get Key**: https://login.tailscale.com/admin/settings/keys
-
-### OS-Specific Settings
-
-These are automatically set based on the detected OS:
-
-#### `homebrew_prefix`
-- **Type**: String (Path)
-- **Default**: `/opt/homebrew` (macOS) or `/home/linuxbrew/.linuxbrew` (Linux)
-- **Description**: Homebrew installation prefix
-- **Read-only**: Set automatically based on OS
-
-#### `package_manager`
-- **Type**: String
-- **Default**: `brew` (macOS) or `apt` (Linux)
-- **Description**: System package manager
-- **Read-only**: Set automatically based on OS
 
 ## Configuration Examples
 
