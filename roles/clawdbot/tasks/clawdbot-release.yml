@@ -16,10 +16,14 @@
 
 - name: Verify clawdbot installation
   ansible.builtin.shell:
-    cmd: "{{ clawdbot_home }}/.local/bin/clawdbot --version"
+    cmd: clawdbot --version
     executable: /bin/bash
   become: true
   become_user: "{{ clawdbot_user }}"
+  environment:
+    PNPM_HOME: "{{ clawdbot_home }}/.local/share/pnpm"
+    PATH: "{{ clawdbot_home }}/.local/bin:{{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+    HOME: "{{ clawdbot_home }}"
   register: clawdbot_version
   changed_when: false
 
