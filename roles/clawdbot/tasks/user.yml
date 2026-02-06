@@ -35,6 +35,19 @@
     group: "{{ clawdbot_user }}"
     mode: '0644'
 
+- name: Create .bash_profile to source .bashrc for login shells
+  ansible.builtin.copy:
+    dest: "{{ clawdbot_home }}/.bash_profile"
+    owner: "{{ clawdbot_user }}"
+    group: "{{ clawdbot_user }}"
+    mode: '0644'
+    content: |
+      # .bash_profile - Executed for login shells
+      # Source .bashrc to ensure environment is loaded for login shells
+      if [ -f ~/.bashrc ]; then
+          . ~/.bashrc
+      fi
+
 - name: Add clawdbot user to sudoers with scoped NOPASSWD
   ansible.builtin.copy:
     dest: /etc/sudoers.d/clawdbot
