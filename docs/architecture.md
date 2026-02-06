@@ -67,7 +67,8 @@ systemd → docker compose → clawdbot container
    - Install essential packages (git, vim, curl, etc.)
    - Configure .bashrc for clawdbot user
 
-2. **Tailscale Setup** (`tailscale-linux.yml`)
+2. **Tailscale Setup** (`tailscale-linux.yml`) - **OPTIONAL (disabled by default)**
+   - Enabled via `tailscale_enabled: true`
    - Add Tailscale repository
    - Install Tailscale package
    - Display connection instructions
@@ -86,7 +87,7 @@ systemd → docker compose → clawdbot container
    - Install UFW
    - Configure DOCKER-USER chain
    - Configure Docker daemon (`/etc/docker/daemon.json`)
-   - Allow SSH (22/tcp) and Tailscale (41641/udp)
+   - Allow SSH (22/tcp) and conditionally Tailscale (41641/udp) if enabled
    - Install and configure fail2ban
 
 6. **Node.js Installation** (`nodejs.yml`)
@@ -125,7 +126,7 @@ Principle of least privilege. If container is compromised, attacker has limited 
 ```
 main.yml
 ├── system-tools.yml → system-tools-linux.yml (essential packages)
-├── tailscale-linux.yml (VPN setup)
+├── tailscale-linux.yml (VPN setup - optional, skipped if tailscale_enabled: false)
 ├── user.yml (create clawdbot user)
 ├── docker-linux.yml (install Docker, create /etc/docker)
 ├── firewall-linux.yml (configure UFW + Docker daemon + fail2ban)
