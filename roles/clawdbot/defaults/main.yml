@@ -1,6 +1,9 @@
 ---
 # Clawdbot default variables
 
+# CI testing mode - skips tasks that require systemd, Docker-in-Docker, or kernel access
+ci_test: false
+
 # Tailscale settings
 # WARNING: Tasks using tailscale_authkey MUST set no_log: true to prevent credential exposure
 tailscale_enabled: false  # Set to true to install and configure Tailscale
