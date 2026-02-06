@@ -163,7 +163,8 @@
           echo ""
           echo "Type 'exit' to return to your previous user"
           echo ""
-          rm -f ~/.clawdbot-welcome
+          # Remove welcome message (suppress errors if already deleted)
+          rm -f "$HOME/.clawdbot-welcome" 2>/dev/null || true
 
     - name: Add welcome message to .bashrc
       ansible.builtin.lineinfile:
