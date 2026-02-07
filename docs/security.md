@@ -193,4 +193,4 @@ After installation, verify:
 
 If you discover a security vulnerability, please report it privately:
 - Clawdbot: https://github.com/clawdbot/clawdbot/security
-- This installer: https://github.com/openclaw/clawdbot-ansible/security
+- This installer: https://github.com/openclaw/openclaw-ansible/security

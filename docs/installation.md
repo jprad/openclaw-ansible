@@ -24,7 +24,7 @@ sudo apt install -y ansible git
 
 ```bash
 git clone https://github.com/openclaw/openclaw-ansible.git
-cd clawdbot-ansible
+cd openclaw-ansible
 
 # Install Ansible collections
 ansible-galaxy collection install -r requirements.yml

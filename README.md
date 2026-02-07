@@ -47,7 +47,7 @@ Install from source for development or testing:
 ```bash
 # Clone the installer
 git clone https://github.com/openclaw/openclaw-ansible.git
-cd clawdbot-ansible
+cd openclaw-ansible
 
 # Install in development mode
 ansible-playbook playbook.yml --ask-become-pass -e clawdbot_install_mode=development
@@ -139,8 +139,8 @@ Verify: `nmap -p- YOUR_SERVER_IP` should show only port 22 open.
 For high-security environments, audit before running:
 
 ```bash
-git clone https://github.com/openclaw/clawdbot-ansible.git
-cd clawdbot-ansible
+git clone https://github.com/openclaw/openclaw-ansible.git
+cd openclaw-ansible
 # Review playbook.yml and roles/
 ansible-playbook playbook.yml --check --diff  # Dry run
 ansible-playbook playbook.yml --ask-become-pass
@@ -184,7 +184,7 @@ sudo apt update && sudo apt install -y ansible git
 
 # Clone repository
 git clone https://github.com/openclaw/openclaw-ansible.git
-cd clawdbot-ansible
+cd openclaw-ansible
 
 # Install Ansible collections
 ansible-galaxy collection install -r requirements.yml
