@@ -5,7 +5,7 @@
 [![Ansible](https://img.shields.io/badge/Ansible-2.14+-blue.svg)](https://www.ansible.com/)
 [![Multi-OS](https://img.shields.io/badge/OS-Debian%20%7C%20Ubuntu-orange.svg)](https://www.debian.org/)
 
-Automated, hardened installation of [Clawdbot](https://github.com/clawdbot/clawdbot) with Docker and Tailscale VPN support for Debian/Ubuntu Linux.
+Automated, hardened installation of [Clawdbot](https://github.com/openclaw/openclaw) with Docker and Tailscale VPN support for Debian/Ubuntu Linux.
 
 ## ⚠️ macOS Support: Deprecated & Disabled
 
@@ -111,7 +111,7 @@ clawdbot logs
 - **Recommended for production**
 
 ### Development Mode
-- Clones from `https://github.com/clawdbot/clawdbot.git`
+- Clones from `https://github.com/openclaw/openclaw.git`
 - Builds from source with `pnpm build`
 - Symlinks binary to `~/.local/bin/clawdbot`
 - Adds helpful aliases:
@@ -255,7 +255,7 @@ Edit `roles/clawdbot/defaults/main.yml` before running the playbook.
 | `clawdbot_home` | `/home/clawdbot` | User home directory |
 | `clawdbot_install_mode` | `release` | `release` or `development` |
 | `clawdbot_ssh_keys` | `[]` | List of SSH public keys |
-| `clawdbot_repo_url` | `https://github.com/clawdbot/clawdbot.git` | Git repository (dev mode) |
+| `clawdbot_repo_url` | `https://github.com/openclaw/openclaw.git` | Git repository (dev mode) |
 | `clawdbot_repo_branch` | `main` | Git branch (dev mode) |
 | `tailscale_authkey` | `""` | Tailscale auth key for auto-connect |
 | `nodejs_version` | `22.x` | Node.js version to install |
@@ -293,5 +293,5 @@ MIT - see [LICENSE](LICENSE)
 
 ## Support
 
-- Clawdbot: https://github.com/clawdbot/clawdbot
+- Clawdbot: https://github.com/openclaw/openclaw
 - This installer: https://github.com/openclaw/openclaw-ansible/issues

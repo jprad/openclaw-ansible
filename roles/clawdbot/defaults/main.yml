@@ -28,7 +28,7 @@ clawdbot_home: /home/clawdbot
 clawdbot_install_mode: "release"
 
 # Development mode settings (only used when clawdbot_install_mode: development)
-clawdbot_repo_url: "https://github.com/clawdbot/clawdbot.git"
+clawdbot_repo_url: "https://github.com/openclaw/openclaw.git"
 clawdbot_repo_branch: "main"
 clawdbot_code_dir: "{{ clawdbot_home }}/code"
 clawdbot_repo_dir: "{{ clawdbot_code_dir }}/clawdbot"

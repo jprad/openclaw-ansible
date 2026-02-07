@@ -129,7 +129,7 @@
           echo ""
           echo "2️⃣  Manual configuration:"
           echo "    clawdbot configure"
-          echo "    nano ~/.clawdbot/clawdbot.json"
+          echo "    nano ~/.openclaw/openclaw.json"
           echo ""
           echo "3️⃣  Login to messaging provider:"
           echo "    clawdbot providers login"

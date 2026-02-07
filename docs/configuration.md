@@ -102,7 +102,7 @@ These variables only apply when `clawdbot_install_mode: development`
 
 #### `clawdbot_repo_url`
 - **Type**: String (Git URL)
-- **Default**: `https://github.com/clawdbot/clawdbot.git`
+- **Default**: `https://github.com/openclaw/openclaw.git`
 - **Description**: Git repository URL to clone
 - **Example**:
   ```bash
@@ -272,7 +272,7 @@ ansible-playbook playbook.yml --ask-become-pass -e @vars-testing.yml
 ```yaml
 # environments/dev.yml
 clawdbot_install_mode: development
-clawdbot_repo_url: "https://github.com/clawdbot/clawdbot.git"
+clawdbot_repo_url: "https://github.com/openclaw/openclaw.git"
 clawdbot_repo_branch: "main"
 clawdbot_ssh_keys:
   - "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"

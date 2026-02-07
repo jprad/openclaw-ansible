@@ -104,6 +104,6 @@
       2. Run onboarding: clawdbot onboard --install-daemon
 
       This will:
-      • Create configuration files (~/.clawdbot/clawdbot.json)
+      • Create configuration files (~/.openclaw/openclaw.json)
       • Guide you through provider setup
       • Install and start the daemon service automatically

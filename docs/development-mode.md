@@ -83,7 +83,7 @@ The Ansible playbook performs these steps:
 2. **Clone repository**
    ```bash
    cd ~/code
-   git clone https://github.com/clawdbot/clawdbot.git
+   git clone https://github.com/openclaw/openclaw.git
    ```
 
 3. **Install dependencies**
@@ -194,7 +194,7 @@ You can customize the development installation:
 ```yaml
 # In playbook or command line
 clawdbot_install_mode: "development"
-clawdbot_repo_url: "https://github.com/clawdbot/clawdbot.git"
+clawdbot_repo_url: "https://github.com/openclaw/openclaw.git"
 clawdbot_repo_branch: "main"
 clawdbot_code_dir: "/home/clawdbot/code"
 clawdbot_repo_dir: "/home/clawdbot/code/clawdbot"
@@ -428,4 +428,4 @@ DEBUG=clawdbot:* clawdbot gateway
 - [Main README](../README.md)
 - [Security Architecture](security.md)
 - [Troubleshooting Guide](troubleshooting.md)
-- [Clawdbot Repository](https://github.com/clawdbot/clawdbot)
+- [Clawdbot Repository](https://github.com/openclaw/openclaw)

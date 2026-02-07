@@ -185,5 +185,5 @@ Clean lifecycle, auto-start, logging integration.
 
 ## Support Channels
 
-- Clawdbot issues: https://github.com/clawdbot/clawdbot
+- Clawdbot issues: https://github.com/openclaw/openclaw
 - This installer: https://github.com/openclaw/openclaw-ansible
