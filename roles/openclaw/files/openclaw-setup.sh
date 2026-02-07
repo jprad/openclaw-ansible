@@ -45,7 +45,7 @@ echo "  - UFW Firewall: ENABLED"
 echo "  - Open Ports: SSH (22) + Tailscale (41641/udp)"
 echo "  - Docker isolation: ACTIVE"
 echo ""
-echo -e "📚 Documentation: ${GREEN}https://docs.clawd.bot${NC}"
+echo -e "📚 Documentation: ${GREEN}https://docs.openclaw.ai${NC}"
 echo ""
 
 # Switch to openclaw user for setup
