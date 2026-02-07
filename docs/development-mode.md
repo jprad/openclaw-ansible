@@ -1,6 +1,6 @@
 # Development Mode Installation
 
-This guide explains how to install Clawdbot in **development mode**, where the application is built from source instead of installed from npm.
+This guide explains how to install OpenClaw in **development mode**, where the application is built from source instead of installed from npm.
 
 ## Overview
 
@@ -428,4 +428,4 @@ DEBUG=clawdbot:* clawdbot gateway
 - [Main README](../README.md)
 - [Security Architecture](security.md)
 - [Troubleshooting Guide](troubleshooting.md)
-- [Clawdbot Repository](https://github.com/openclaw/openclaw)
+- [OpenClaw Repository](https://github.com/openclaw/openclaw)

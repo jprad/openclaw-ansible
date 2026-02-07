@@ -1,5 +1,5 @@
 ---
-- name: Install Clawdbot with Docker and UFW firewall
+- name: Install OpenClaw with Docker and UFW firewall
   hosts: localhost
   connection: local
   become: true
@@ -97,7 +97,7 @@
         content: |
           echo ""
           echo "╔════════════════════════════════════════════════════════╗"
-          echo "║        📋 Clawdbot Setup - Next Steps                 ║"
+          echo "║        📋 OpenClaw Setup - Next Steps                 ║"
           echo "╚════════════════════════════════════════════════════════╝"
           echo ""
           echo "You are: $(whoami)@$(hostname)"
@@ -107,7 +107,7 @@
           echo "Environment is configured:"
           echo "  ✓ XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR:-not set}"
           echo "  ✓ DBUS_SESSION_BUS_ADDRESS: ${DBUS_SESSION_BUS_ADDRESS:-not set}"
-          echo "  ✓ Clawdbot: $(clawdbot --version 2>/dev/null || echo 'not found')"
+          echo "  ✓ OpenClaw: $(clawdbot --version 2>/dev/null || echo 'not found')"
           echo ""
           echo "────────────────────────────────────────────────────────"
           echo "🚀 Quick Start - Run This Command:"
@@ -175,4 +175,4 @@
 
     - name: Notify that playbook is complete
       ansible.builtin.debug:
-        msg: "✅ Clawdbot installation complete!"
+        msg: "✅ OpenClaw installation complete!"

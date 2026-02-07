@@ -6,7 +6,7 @@
     fail_msg: "Invalid clawdbot_install_mode: '{{ clawdbot_install_mode }}'. Must be 'release' or 'development'."
     success_msg: "Valid install mode: {{ clawdbot_install_mode }}"
 
-- name: Create Clawdbot directories (structure only, no config files)
+- name: Create OpenClaw directories (structure only, no config files)
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
@@ -79,7 +79,7 @@
 - name: Configure .bashrc for clawdbot user (base config)
   ansible.builtin.blockinfile:
     path: "{{ clawdbot_home }}/.bashrc"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK - Clawdbot pnpm"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - OpenClaw pnpm"
     block: |
       # pnpm configuration
       export PNPM_HOME="{{ clawdbot_home }}/.local/share/pnpm"
@@ -97,7 +97,7 @@
 - name: Display configuration note
   ansible.builtin.debug:
     msg: |
-      ℹ️  Clawdbot is installed but NOT configured yet.
+      ℹ️  OpenClaw is installed but NOT configured yet.
 
       Next steps (run as clawdbot user):
       1. Switch user: sudo su - clawdbot

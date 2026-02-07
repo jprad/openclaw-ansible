@@ -88,7 +88,7 @@ When `ci_test=true`, the playbook skips tasks that cannot run in an unprivileged
 | Docker CE installation | Requires Docker-in-Docker |
 | UFW/iptables firewall | Requires kernel access |
 | systemd user services | Requires running systemd (loginctl) |
-| Clawdbot app installation | Package renaming pending |
+| OpenClaw app installation | Package renaming pending |
 
 #### Tasks That Run Normally
 
@@ -138,7 +138,7 @@ Tasks are conditionally skipped using Ansible's `when` directive:
 | UFW firewall | ❌ No | Requires kernel access |
 | systemd services | ❌ No | Requires running systemd |
 | Tailscale | ❌ No | Disabled by default |
-| Clawdbot app | ❌ No | Package renaming pending |
+| OpenClaw app | ❌ No | Package renaming pending |
 
 **Coverage: ~75%** of playbook tasks are validated by the test harness.
 

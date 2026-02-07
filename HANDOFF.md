@@ -59,7 +59,7 @@ Update these files to reflect that macOS support has been **removed**, not "comi
 - ❌ Docker CE installation (Docker-in-Docker not possible)
 - ❌ UFW/iptables firewall (needs kernel access)
 - ❌ systemd services (container lacks systemd)
-- ❌ Clawdbot binary install (external package, not in CI scope)
+- ❌ OpenClaw binary install (external package, not in CI scope)
 
 **Usage**: `./tests/run-tests.sh ubuntu2404`
 

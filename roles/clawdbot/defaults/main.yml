@@ -1,5 +1,5 @@
 ---
-# Clawdbot default variables
+# OpenClaw default variables
 
 # CI testing mode - skips tasks that require systemd, Docker-in-Docker, or kernel access
 ci_test: false
@@ -12,10 +12,10 @@ tailscale_authkey: ""  # Optional: set to auto-connect during installation
 # Node.js version
 nodejs_version: "22.x"
 
-# Clawdbot settings
+# OpenClaw settings
 clawdbot_port: 3000
 
-# Clawdbot config directory
+# OpenClaw config directory
 clawdbot_config_dir: "{{ clawdbot_home }}/.clawdbot"
 
 # User settings (will be created as system user)

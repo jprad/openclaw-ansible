@@ -51,7 +51,7 @@ Everything else runs normally: package installation, user creation, Node.js/pnpm
 | UFW / iptables | ❌ No | Needs kernel access |
 | fail2ban / systemd | ❌ No | Needs running systemd |
 | Tailscale | ❌ No | Disabled by default already |
-| Clawdbot app install | ❌ No | Package renaming pending |
+| OpenClaw app install | ❌ No | Package renaming pending |
 | Idempotency | ✅ Yes | Second run must have 0 changes |
 
 ## Exit Codes

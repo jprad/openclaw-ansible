@@ -13,12 +13,12 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Clawdbot ASCII Art Lobster
+# OpenClaw ASCII Art Lobster
 cat << 'LOBSTER'
 [0;36m
    +====================================================+
    |                                                    |
-   |         [0;33mWelcome to Clawdbot! [0;31m🦞[0;36m                    |
+   |         [0;33mWelcome to OpenClaw! [0;31m🦞[0;36m                    |
    |                                                    |
    |[0;31m                   ,.---._                         [0;36m|
    |[0;31m               ,,,,     /       `,                 [0;36m|
@@ -57,7 +57,7 @@ echo "DEBUG: About to create init script..."
 cat > /home/clawdbot/.clawdbot-init << 'INIT_EOF'
 # Display welcome message
 echo "============================================"
-echo "📋 Clawdbot Setup - Next Steps"
+echo "📋 OpenClaw Setup - Next Steps"
 echo "============================================"
 echo ""
 echo "You are now: $(whoami)@$(hostname)"
@@ -65,7 +65,7 @@ echo "Home: $HOME"
 echo ""
 echo "🔧 Setup Commands:"
 echo ""
-echo "1. Configure Clawdbot:"
+echo "1. Configure OpenClaw:"
 echo "   nano ~/.clawdbot/config.yml"
 echo ""
 echo "2. Login to provider (WhatsApp/Telegram/Signal):"

@@ -24,7 +24,7 @@ description: Technical implementation details
 └──────────────┬──────────────────────────┘
                │
 ┌──────────────┴──────────────────────────┐
-│ Clawdbot Container                       │
+│ OpenClaw Container                       │
 │ User: clawdbot                           │
 │ Port: 127.0.0.1:3000                     │
 └──────────────────────────────────────────┘
@@ -54,7 +54,7 @@ description: Technical implementation details
 
 ## Service Management
 
-Clawdbot runs as a systemd service that manages the Docker container:
+OpenClaw runs as a systemd service that manages the Docker container:
 
 ```bash
 # Systemd controls Docker Compose
@@ -95,7 +95,7 @@ systemd → docker compose → clawdbot container
    - Install Node.js 22.x
    - Install pnpm globally
 
-7. **Clawdbot Setup** (`clawdbot.yml`)
+7. **OpenClaw Setup** (`clawdbot.yml`)
    - Create directories
    - Install via pnpm (release mode) or build from source (development mode)
    - Configure systemd service

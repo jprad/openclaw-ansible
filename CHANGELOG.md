@@ -19,7 +19,7 @@
 #### System Improvements
 - **apt update & upgrade** runs automatically at start (Debian/Ubuntu)
 - **Homebrew integrated** in PATH for all users
-- **pnpm package manager** used for Clawdbot installation
+- **pnpm package manager** used for OpenClaw installation
 
 ### 🐛 Bug Fixes
 
@@ -35,7 +35,7 @@
    - Ensures proper login shell with .bashrc loading
    - Alternative documented: `sudo -u clawdbot -i`
 
-3. **Clawdbot Installation** ✅
+3. **OpenClaw Installation** ✅
    - Changed: `pnpm add -g` → `pnpm install -g clawdbot@latest`
    - Added installation verification
    - Added version display
@@ -172,7 +172,7 @@ clawdbot doctor           # Uses new build
 ### 🎯 User Experience Improvements
 
 #### Welcome Message
-- Shows environment status (XDG_RUNTIME_DIR, DBUS, Homebrew, Clawdbot version)
+- Shows environment status (XDG_RUNTIME_DIR, DBUS, Homebrew, OpenClaw version)
 - Recommends `clawdbot onboard --install-daemon` as primary command
 - Provides manual setup steps as alternative
 - Lists useful commands for troubleshooting
@@ -219,7 +219,7 @@ Ansible creates only structure, no config files:
 | Firewall | UFW | Application FW | Working |
 | systemd | ✅ | ❌ | Linux only |
 | DBus Setup | ✅ | N/A | Linux only |
-| pnpm + Clawdbot | ✅ | ✅ | Working |
+| pnpm + OpenClaw | ✅ | ✅ | Working |
 
 ### ⚠️ Breaking Changes
 

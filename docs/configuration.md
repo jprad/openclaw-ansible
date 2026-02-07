@@ -1,6 +1,6 @@
 # Configuration Guide
 
-This guide explains all available configuration options for the Clawdbot Ansible installer.
+This guide explains all available configuration options for the OpenClaw Ansible installer.
 
 ## Configuration File
 
@@ -54,7 +54,7 @@ Directly edit `roles/clawdbot/defaults/main.yml` before running the playbook.
 #### `clawdbot_user`
 - **Type**: String
 - **Default**: `clawdbot`
-- **Description**: System user name for running Clawdbot
+- **Description**: System user name for running OpenClaw
 - **Example**:
   ```bash
   -e clawdbot_user=myuser
@@ -136,12 +136,12 @@ These variables only apply when `clawdbot_install_mode: development`
   -e clawdbot_repo_dir=/home/clawdbot/projects/clawdbot
   ```
 
-### Clawdbot Settings
+### OpenClaw Settings
 
 #### `clawdbot_port`
 - **Type**: Integer
 - **Default**: `3000`
-- **Description**: Port for Clawdbot gateway (currently informational)
+- **Description**: Port for OpenClaw gateway (currently informational)
 - **Example**:
   ```bash
   -e clawdbot_port=8080
@@ -150,7 +150,7 @@ These variables only apply when `clawdbot_install_mode: development`
 #### `clawdbot_config_dir`
 - **Type**: String (Path)
 - **Default**: `{{ clawdbot_home }}/.clawdbot`
-- **Description**: Clawdbot configuration directory
+- **Description**: OpenClaw configuration directory
 - **Example**:
   ```bash
   -e clawdbot_config_dir=/etc/clawdbot
@@ -306,7 +306,7 @@ nodejs_version: "22.x"
 
 ### SSH Keys
 
-1. **Use dedicated keys**: Create separate SSH keys for Clawdbot access
+1. **Use dedicated keys**: Create separate SSH keys for OpenClaw access
    ```bash
    ssh-keygen -t ed25519 -f ~/.ssh/clawdbot_ed25519 -C "clawdbot-access"
    ```

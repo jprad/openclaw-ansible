@@ -50,7 +50,7 @@ sudo tailscale status
 
 Get auth keys from: https://login.tailscale.com/admin/settings/keys
 
-### 2. Configure Clawdbot
+### 2. Configure OpenClaw
 
 ```bash
 # Edit config
@@ -122,9 +122,9 @@ sudo ufw reload
 sudo iptables -L DOCKER-USER -n -v
 ```
 
-## Accessing Clawdbot
+## Accessing OpenClaw
 
-Clawdbot's web interface runs on port 3000 (localhost only).
+OpenClaw's web interface runs on port 3000 (localhost only).
 
 ### Via Tailscale (Recommended)
 
@@ -260,7 +260,7 @@ ansible-playbook playbook.yml \
 
 ```yaml
 # Example GitHub Actions
-- name: Deploy Clawdbot
+- name: Deploy OpenClaw
   run: |
     ansible-playbook playbook.yml \
       -e "tailscale_authkey=${{ secrets.TAILSCALE_KEY }}" \

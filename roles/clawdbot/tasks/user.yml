@@ -2,7 +2,7 @@
 - name: Create clawdbot system user
   ansible.builtin.user:
     name: "{{ clawdbot_user }}"
-    comment: "Clawdbot Service User"
+    comment: "OpenClaw Service User"
     system: true
     shell: /bin/bash
     create_home: true
@@ -20,7 +20,7 @@
 - name: Configure .bashrc for clawdbot user
   ansible.builtin.blockinfile:
     path: "{{ clawdbot_home }}/.bashrc"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK - Clawdbot config"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - OpenClaw config"
     block: |
       # Enable 256 colors
       export TERM=xterm-256color
@@ -63,7 +63,7 @@
     owner: root
     group: root
     content: |
-      # Clawdbot sudo permissions (scoped for security)
+      # OpenClaw sudo permissions (scoped for security)
       #
       # SECURITY NOTE: These permissions are intentionally limited.
       # If clawdbot is compromised, attackers can only:
@@ -113,7 +113,7 @@
 
 - name: Display clawdbot user ID
   ansible.builtin.debug:
-    msg: "Clawdbot user ID: {{ clawdbot_uid.stdout }}"
+    msg: "OpenClaw user ID: {{ clawdbot_uid.stdout }}"
   when: ansible_os_family == 'Debian' and not ci_test
 
 - name: Enable lingering for clawdbot user (allows systemd user services without login)
@@ -141,7 +141,7 @@
       - clawdbot_uid_value is defined
       - clawdbot_uid_value | length > 0
     fail_msg: "Failed to retrieve clawdbot user UID. Cannot continue with systemd service setup."
-    success_msg: "Clawdbot UID verified: {{ clawdbot_uid_value }}"
+    success_msg: "OpenClaw UID verified: {{ clawdbot_uid_value }}"
   when: ansible_os_family == 'Debian' and not ci_test
 
 # SSH key configuration

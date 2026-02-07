@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Ansible playbook for automated, hardened Clawdbot installation on Debian/Ubuntu systems.
+Ansible playbook for automated, hardened OpenClaw installation on Debian/Ubuntu systems.
 
 ## Key Principles
 
@@ -185,5 +185,5 @@ Clean lifecycle, auto-start, logging integration.
 
 ## Support Channels
 
-- Clawdbot issues: https://github.com/openclaw/openclaw
+- OpenClaw issues: https://github.com/openclaw/openclaw
 - This installer: https://github.com/openclaw/openclaw-ansible

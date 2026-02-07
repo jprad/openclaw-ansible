@@ -7,7 +7,7 @@ description: Firewall configuration, Docker isolation, and security hardening de
 
 ## Overview
 
-This playbook implements a multi-layer defense strategy to secure Clawdbot installations.
+This playbook implements a multi-layer defense strategy to secure OpenClaw installations.
 
 ## Security Layers
 
@@ -138,7 +138,7 @@ sudo systemctl status unattended-upgrades
 
 ## Tailscale Access
 
-Clawdbot's web interface (port 3000) is bound to localhost. Access it via:
+OpenClaw's web interface (port 3000) is bound to localhost. Access it via:
 
 1. **SSH tunnel**:
    ```bash
@@ -192,5 +192,5 @@ After installation, verify:
 ## Reporting Security Issues
 
 If you discover a security vulnerability, please report it privately:
-- Clawdbot: https://github.com/openclaw/openclaw/security
+- OpenClaw: https://github.com/openclaw/openclaw/security
 - This installer: https://github.com/openclaw/openclaw-ansible/security

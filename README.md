@@ -1,11 +1,11 @@
-# Clawdbot Ansible Installer
+# OpenClaw Ansible Installer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lint](https://github.com/openclaw/openclaw-ansible/actions/workflows/lint.yml/badge.svg)](https://github.com/openclaw/openclaw-ansible/actions/workflows/lint.yml)
 [![Ansible](https://img.shields.io/badge/Ansible-2.14+-blue.svg)](https://www.ansible.com/)
 [![Multi-OS](https://img.shields.io/badge/OS-Debian%20%7C%20Ubuntu-orange.svg)](https://www.debian.org/)
 
-Automated, hardened installation of [Clawdbot](https://github.com/openclaw/openclaw) with Docker and Tailscale VPN support for Debian/Ubuntu Linux.
+Automated, hardened installation of [OpenClaw](https://github.com/openclaw/openclaw) with Docker and Tailscale VPN support for Debian/Ubuntu Linux.
 
 ## ⚠️ macOS Support: Deprecated & Disabled
 
@@ -59,7 +59,7 @@ ansible-playbook playbook.yml --ask-become-pass -e clawdbot_install_mode=develop
 - UFW firewall (SSH + Tailscale ports only)
 - Docker CE + Compose V2 (for sandboxes)
 - Node.js 22.x + pnpm
-- Clawdbot on host (not containerized)
+- OpenClaw on host (not containerized)
 - Systemd service (auto-start)
 
 ## Post-Install
@@ -128,7 +128,7 @@ Enable with: `-e clawdbot_install_mode=development`
 - **Fail2ban**: SSH brute-force protection (5 attempts → 1 hour ban)
 - **Automatic updates**: Security patches via unattended-upgrades
 - **Docker isolation**: Containers can't expose ports externally (DOCKER-USER chain)
-- **Non-root**: Clawdbot runs as unprivileged user
+- **Non-root**: OpenClaw runs as unprivileged user
 - **Scoped sudo**: Limited to service management (not full root)
 - **Systemd hardening**: NoNewPrivileges, PrivateTmp, ProtectSystem
 
@@ -165,11 +165,11 @@ ansible-playbook playbook.yml --ask-become-pass
 ## What Gets Installed
 
 - Node.js 22.x + pnpm
-- Clawdbot via `pnpm install -g clawdbot@latest`
+- OpenClaw via `pnpm install -g clawdbot@latest`
 - Docker CE + Compose V2
 - UFW firewall (configured for SSH + Tailscale only)
 - Tailscale VPN
-- systemd service for Clawdbot
+- systemd service for OpenClaw
 - Essential development tools (git, vim, curl, etc.)
 - Fail2ban for SSH protection
 - Unattended-upgrades for automatic security patches
@@ -293,5 +293,5 @@ MIT - see [LICENSE](LICENSE)
 
 ## Support
 
-- Clawdbot: https://github.com/openclaw/openclaw
+- OpenClaw: https://github.com/openclaw/openclaw
 - This installer: https://github.com/openclaw/openclaw-ansible/issues

@@ -87,7 +87,7 @@ ansible-playbook playbook.yml --ask-become-pass \
 - Added Homebrew to PATH
 - Enhanced security with ProtectSystem and ProtectHome
 
-### 8. Clawdbot Installation via pnpm
+### 8. OpenClaw Installation via pnpm
 - **File**: `roles/clawdbot/tasks/clawdbot.yml`
 - Changed from `pnpm add -g` to `pnpm install -g clawdbot@latest`
 - Added verification step

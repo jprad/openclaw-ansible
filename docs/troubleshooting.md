@@ -7,7 +7,7 @@ description: Common issues and solutions
 
 ## Container Can't Reach Internet
 
-**Symptom**: Clawdbot can't connect to WhatsApp/Telegram
+**Symptom**: OpenClaw can't connect to WhatsApp/Telegram
 
 **Check**:
 ```bash
@@ -38,7 +38,7 @@ sudo systemctl restart clawdbot
 # Find what's using port 3000
 sudo ss -tlnp | grep 3000
 
-# Change Clawdbot port
+# Change OpenClaw port
 sudo nano /opt/clawdbot/docker-compose.yml
 # Change: "127.0.0.1:3001:3000"
 
