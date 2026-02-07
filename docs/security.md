@@ -67,28 +67,28 @@ ports:
 
 ### Layer 5: Non-Root Container
 
-Container processes run as unprivileged `clawdbot` user.
+Container processes run as unprivileged `openclaw` user.
 
 ### Layer 6: Systemd Hardening
 
-The clawdbot service runs with security restrictions:
+The openclaw service runs with security restrictions:
 
 - `NoNewPrivileges=true` - Prevents privilege escalation
 - `PrivateTmp=true` - Isolated /tmp directory
 - `ProtectSystem=strict` - Read-only system directories
 - `ProtectHome=read-only` - Limited home directory access
-- `ReadWritePaths` - Only ~/.clawdbot is writable
+- `ReadWritePaths` - Only ~/.openclaw is writable
 
 ### Layer 7: Scoped Sudo Access
 
-The clawdbot user has limited sudo permissions (not full root):
+The openclaw user has limited sudo permissions (not full root):
 
 ```bash
 # Allowed commands only:
-- systemctl start/stop/restart/status clawdbot
+- systemctl start/stop/restart/status openclaw
 - systemctl daemon-reload
 - tailscale commands
-- journalctl for clawdbot logs
+- journalctl for openclaw logs
 ```
 
 ### Layer 8: Automatic Security Updates

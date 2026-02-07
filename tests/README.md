@@ -33,7 +33,7 @@ The `ci_test` variable skips tasks that require:
 - Docker-in-Docker (Docker CE installation)
 - Kernel access (UFW/iptables firewall)
 - systemd services (loginctl, daemon installation)
-- External package installation (clawdbot app install)
+- External package installation (openclaw app install)
 
 Everything else runs normally: package installation, user creation, Node.js/pnpm setup, directory structure, config file rendering, etc.
 
@@ -44,7 +44,7 @@ Everything else runs normally: package installation, user creation, Node.js/pnpm
 | System packages (35+) | ✅ Yes | Full apt install |
 | User creation + config | ✅ Yes | User, .bashrc, sudoers, SSH dir |
 | Node.js + pnpm | ✅ Yes | Full install + version check |
-| Directory structure | ✅ Yes | All .clawdbot/* dirs with perms |
+| Directory structure | ✅ Yes | All .openclaw/* dirs with perms |
 | Git global config | ✅ Yes | Aliases, default branch |
 | Vim config | ✅ Yes | Template rendering |
 | Docker CE install | ❌ No | Needs Docker-in-Docker |

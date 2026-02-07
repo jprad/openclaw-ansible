@@ -56,10 +56,10 @@ The main test execution script that runs inside the container:
 
 #### `verify.yml`
 Post-convergence assertions that check:
-- User creation (`clawdbot` user exists)
+- User creation (`openclaw` user exists)
 - Package installation (git, curl, vim, jq, tmux, tree, htop)
 - Node.js and pnpm installation
-- Directory structure (`.clawdbot/`, subdirectories, permissions)
+- Directory structure (`.openclaw/`, subdirectories, permissions)
 - Configuration files (sudoers, vim config, git global config)
 
 #### `run-tests.sh`
@@ -75,7 +75,7 @@ Local test runner script:
 The playbook supports a special `ci_test` variable that modifies behavior for containerized testing:
 
 ```yaml
-# Set in roles/clawdbot/defaults/main.yml
+# Set in roles/openclaw/defaults/main.yml
 ci_test: false  # Default: run all tasks
 ```
 
@@ -111,8 +111,8 @@ Tasks are conditionally skipped using Ansible's `when` directive:
   when: not ci_test
 
 # Example: Skip systemd setup in CI mode
-- name: Enable lingering for clawdbot user
-  ansible.builtin.command: loginctl enable-linger {{ clawdbot_user }}
+- name: Enable lingering for openclaw user
+  ansible.builtin.command: loginctl enable-linger {{ openclaw_user }}
   when: ansible_os_family == 'Debian' and not ci_test
 ```
 
@@ -130,7 +130,7 @@ Tasks are conditionally skipped using Ansible's `when` directive:
 | Node.js installation | ✅ Yes | Version 22.x installed and verified |
 | pnpm installation | ✅ Yes | Global install + version check |
 | pnpm configuration | ✅ Yes | Global dir and bin dir set correctly |
-| Directory structure | ✅ Yes | All .clawdbot/* dirs with permissions |
+| Directory structure | ✅ Yes | All .openclaw/* dirs with permissions |
 | Credentials directory | ✅ Yes | Mode 0700 enforced |
 | Git global config | ✅ Yes | Aliases and default branch |
 | Vim configuration | ✅ Yes | /etc/vim/vimrc.local template |
@@ -171,28 +171,28 @@ The test harness revealed and fixed several idempotency issues:
 #### pnpm Configuration
 **Before:**
 ```yaml
-- name: Configure pnpm for clawdbot user
+- name: Configure pnpm for openclaw user
   ansible.builtin.shell:
     cmd: |
-      pnpm config set global-dir {{ clawdbot_home }}/.local/share/pnpm
-      pnpm config set global-bin-dir {{ clawdbot_home }}/.local/bin
+      pnpm config set global-dir {{ openclaw_home }}/.local/share/pnpm
+      pnpm config set global-bin-dir {{ openclaw_home }}/.local/bin
   changed_when: true  # Always reports changed!
 ```
 
 **After:**
 ```yaml
-- name: Configure pnpm for clawdbot user
+- name: Configure pnpm for openclaw user
   ansible.builtin.shell:
     cmd: |
       CURRENT_GLOBAL_DIR=$(pnpm config get global-dir 2>/dev/null || echo "")
       CURRENT_BIN_DIR=$(pnpm config get global-bin-dir 2>/dev/null || echo "")
       CHANGED=0
-      if [ "$CURRENT_GLOBAL_DIR" != "{{ clawdbot_home }}/.local/share/pnpm" ]; then
-        pnpm config set global-dir {{ clawdbot_home }}/.local/share/pnpm
+      if [ "$CURRENT_GLOBAL_DIR" != "{{ openclaw_home }}/.local/share/pnpm" ]; then
+        pnpm config set global-dir {{ openclaw_home }}/.local/share/pnpm
         CHANGED=1
       fi
-      if [ "$CURRENT_BIN_DIR" != "{{ clawdbot_home }}/.local/bin" ]; then
-        pnpm config set global-bin-dir {{ clawdbot_home }}/.local/bin
+      if [ "$CURRENT_BIN_DIR" != "{{ openclaw_home }}/.local/bin" ]; then
+        pnpm config set global-bin-dir {{ openclaw_home }}/.local/bin
         CHANGED=1
       fi
       exit $CHANGED
@@ -207,7 +207,7 @@ The test harness revealed and fixed several idempotency issues:
 
 ```bash
 # 1. Make changes to the playbook
-vim roles/clawdbot/tasks/main.yml
+vim roles/openclaw/tasks/main.yml
 
 # 2. Run tests to validate
 bash tests/run-tests.sh
@@ -314,7 +314,7 @@ fatal: [localhost]: FAILED! => {"assertion": ..., "failed": true}
 ```bash
 docker run --rm -it test bash -c "
   ansible-playbook playbook.yml -e ci_test=true --connection=local > /dev/null
-  ls -la /home/clawdbot/.clawdbot/
+  ls -la /home/openclaw/.openclaw/
   dpkg -l | grep nodejs
 "
 ```
@@ -456,7 +456,7 @@ Potential enhancements to the test harness:
 
 1. **Systemd support**: Use `systemd` container images to test daemon installation
 2. **Multi-distribution matrix**: Test on Ubuntu 22.04, 24.04, Debian 11, 12
-3. **Integration tests**: Test actual clawdbot app functionality (requires package)
+3. **Integration tests**: Test actual openclaw app functionality (requires package)
 4. **Security scanning**: Run ansible-lint, yamllint, and security scanners
 5. **Performance benchmarks**: Track playbook execution time over commits
 6. **Molecule integration**: Migrate to Ansible Molecule for more advanced testing
@@ -464,6 +464,6 @@ Potential enhancements to the test harness:
 ## Related Documentation
 
 - [Installation Guide](installation.md) - Manual playbook installation
-- [Development Mode](development-mode.md) - Building clawdbot from source
+- [Development Mode](development-mode.md) - Building openclaw from source
 - [Architecture](architecture.md) - System design and components
 - [Troubleshooting](troubleshooting.md) - Common issues and solutions

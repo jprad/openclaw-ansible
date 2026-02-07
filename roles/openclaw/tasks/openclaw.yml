@@ -1,107 +1,107 @@
 ---
-- name: Validate clawdbot_install_mode
+- name: Validate openclaw_install_mode
   ansible.builtin.assert:
     that:
-      - clawdbot_install_mode in ["release", "development"]
-    fail_msg: "Invalid clawdbot_install_mode: '{{ clawdbot_install_mode }}'. Must be 'release' or 'development'."
-    success_msg: "Valid install mode: {{ clawdbot_install_mode }}"
+      - openclaw_install_mode in ["release", "development"]
+    fail_msg: "Invalid openclaw_install_mode: '{{ openclaw_install_mode }}'. Must be 'release' or 'development'."
+    success_msg: "Valid install mode: {{ openclaw_install_mode }}"
 
 - name: Create OpenClaw directories (structure only, no config files)
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     mode: "{{ item.mode }}"
   loop:
-    - { path: "{{ clawdbot_config_dir }}", mode: '0755' }
-    - { path: "{{ clawdbot_config_dir }}/sessions", mode: '0755' }
-    - { path: "{{ clawdbot_config_dir }}/credentials", mode: '0700' }
-    - { path: "{{ clawdbot_config_dir }}/data", mode: '0755' }
-    - { path: "{{ clawdbot_config_dir }}/logs", mode: '0755' }
+    - { path: "{{ openclaw_config_dir }}", mode: '0755' }
+    - { path: "{{ openclaw_config_dir }}/sessions", mode: '0755' }
+    - { path: "{{ openclaw_config_dir }}/credentials", mode: '0700' }
+    - { path: "{{ openclaw_config_dir }}/data", mode: '0755' }
+    - { path: "{{ openclaw_config_dir }}/logs", mode: '0755' }
 
 - name: Create pnpm directories
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     mode: '0755'
   loop:
-    - "{{ clawdbot_home }}/.local/share/pnpm"
-    - "{{ clawdbot_home }}/.local/share/pnpm/store"
-    - "{{ clawdbot_home }}/.local/bin"
+    - "{{ openclaw_home }}/.local/share/pnpm"
+    - "{{ openclaw_home }}/.local/share/pnpm/store"
+    - "{{ openclaw_home }}/.local/bin"
 
 - name: Ensure pnpm directories have correct ownership
   ansible.builtin.file:
-    path: "{{ clawdbot_home }}/.local/share/pnpm"
+    path: "{{ openclaw_home }}/.local/share/pnpm"
     state: directory
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     recurse: true
     mode: '0755'
 
-- name: Configure pnpm for clawdbot user
+- name: Configure pnpm for openclaw user
   ansible.builtin.shell:
     cmd: |
       CURRENT_GLOBAL_DIR=$(pnpm config get global-dir 2>/dev/null || echo "")
       CURRENT_BIN_DIR=$(pnpm config get global-bin-dir 2>/dev/null || echo "")
       CHANGED=0
-      if [ "$CURRENT_GLOBAL_DIR" != "{{ clawdbot_home }}/.local/share/pnpm" ]; then
-        pnpm config set global-dir {{ clawdbot_home }}/.local/share/pnpm
+      if [ "$CURRENT_GLOBAL_DIR" != "{{ openclaw_home }}/.local/share/pnpm" ]; then
+        pnpm config set global-dir {{ openclaw_home }}/.local/share/pnpm
         CHANGED=1
       fi
-      if [ "$CURRENT_BIN_DIR" != "{{ clawdbot_home }}/.local/bin" ]; then
-        pnpm config set global-bin-dir {{ clawdbot_home }}/.local/bin
+      if [ "$CURRENT_BIN_DIR" != "{{ openclaw_home }}/.local/bin" ]; then
+        pnpm config set global-bin-dir {{ openclaw_home }}/.local/bin
         CHANGED=1
       fi
       exit $CHANGED
     executable: /bin/bash
   become: true
-  become_user: "{{ clawdbot_user }}"
+  become_user: "{{ openclaw_user }}"
   register: pnpm_config_result
   changed_when: pnpm_config_result.rc == 1
   failed_when: pnpm_config_result.rc > 1
 
 - name: Display installation mode
   ansible.builtin.debug:
-    msg: "📦 Installation mode: {{ clawdbot_install_mode }}"
+    msg: "📦 Installation mode: {{ openclaw_install_mode }}"
 
 # Include appropriate installation method based on mode
 - name: Include release installation (pnpm install -g)
-  ansible.builtin.include_tasks: clawdbot-release.yml
-  when: clawdbot_install_mode == "release" and not ci_test
+  ansible.builtin.include_tasks: openclaw-release.yml
+  when: openclaw_install_mode == "release" and not ci_test
 
 - name: Include development installation (git clone + build + link)
-  ansible.builtin.include_tasks: clawdbot-development.yml
-  when: clawdbot_install_mode == "development" and not ci_test
+  ansible.builtin.include_tasks: openclaw-development.yml
+  when: openclaw_install_mode == "development" and not ci_test
 
-- name: Configure .bashrc for clawdbot user (base config)
+- name: Configure .bashrc for openclaw user (base config)
   ansible.builtin.blockinfile:
-    path: "{{ clawdbot_home }}/.bashrc"
+    path: "{{ openclaw_home }}/.bashrc"
     marker: "# {mark} ANSIBLE MANAGED BLOCK - OpenClaw pnpm"
     block: |
       # pnpm configuration
-      export PNPM_HOME="{{ clawdbot_home }}/.local/share/pnpm"
-      export PATH="{{ clawdbot_home }}/.local/bin:$PNPM_HOME:$PATH"
+      export PNPM_HOME="{{ openclaw_home }}/.local/share/pnpm"
+      export PATH="{{ openclaw_home }}/.local/bin:$PNPM_HOME:$PATH"
     create: true
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     mode: '0644'
     insertafter: EOF
 
-# NOTE: We do NOT create config.yml here - clawdbot onboard/configure will do that
-# We also do NOT install the systemd service - clawdbot onboard --install-daemon will do that
-# The .clawdbot directory structure is created above, but config and daemon are user-initiated
+# NOTE: We do NOT create config.yml here - openclaw onboard/configure will do that
+# We also do NOT install the systemd service - openclaw onboard --install-daemon will do that
+# The .openclaw directory structure is created above, but config and daemon are user-initiated
 
 - name: Display configuration note
   ansible.builtin.debug:
     msg: |
       ℹ️  OpenClaw is installed but NOT configured yet.
 
-      Next steps (run as clawdbot user):
-      1. Switch user: sudo su - clawdbot
-      2. Run onboarding: clawdbot onboard --install-daemon
+      Next steps (run as openclaw user):
+      1. Switch user: sudo su - openclaw
+      2. Run onboarding: openclaw onboard --install-daemon
 
       This will:
       • Create configuration files (~/.openclaw/openclaw.json)

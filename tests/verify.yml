@@ -5,12 +5,12 @@
   gather_facts: true
 
   vars:
-    clawdbot_user: clawdbot
-    clawdbot_home: /home/clawdbot
+    openclaw_user: openclaw
+    openclaw_home: /home/openclaw
 
   tasks:
-    - name: Verify clawdbot user exists
-      ansible.builtin.command: id clawdbot
+    - name: Verify openclaw user exists
+      ansible.builtin.command: id openclaw
       changed_when: false
 
     - name: Verify critical packages installed
@@ -26,16 +26,16 @@
       ansible.builtin.command: pnpm --version
       changed_when: false
 
-    - name: Verify clawdbot directory structure
+    - name: Verify openclaw directory structure
       ansible.builtin.stat:
         path: "{{ item.path }}"
       loop:
-        - { path: "{{ clawdbot_home }}/.clawdbot", mode: "0755" }
-        - { path: "{{ clawdbot_home }}/.clawdbot/sessions" }
-        - { path: "{{ clawdbot_home }}/.clawdbot/credentials", mode: "0700" }
-        - { path: "{{ clawdbot_home }}/.clawdbot/data" }
-        - { path: "{{ clawdbot_home }}/.clawdbot/logs" }
-        - { path: "{{ clawdbot_home }}/.ssh", mode: "0700" }
+        - { path: "{{ openclaw_home }}/.openclaw", mode: "0755" }
+        - { path: "{{ openclaw_home }}/.openclaw/sessions" }
+        - { path: "{{ openclaw_home }}/.openclaw/credentials", mode: "0700" }
+        - { path: "{{ openclaw_home }}/.openclaw/data" }
+        - { path: "{{ openclaw_home }}/.openclaw/logs" }
+        - { path: "{{ openclaw_home }}/.ssh", mode: "0700" }
       register: dir_checks
 
     - name: Assert directories exist
@@ -52,7 +52,7 @@
         fail_msg: "credentials dir should be 0700"
 
     - name: Verify sudoers file exists and is valid
-      ansible.builtin.command: visudo -cf /etc/sudoers.d/clawdbot
+      ansible.builtin.command: visudo -cf /etc/sudoers.d/openclaw
       changed_when: false
 
     - name: Verify global vim config exists

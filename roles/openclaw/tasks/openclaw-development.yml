@@ -3,68 +3,68 @@
 
 - name: Create code directory
   ansible.builtin.file:
-    path: "{{ clawdbot_code_dir }}"
+    path: "{{ openclaw_code_dir }}"
     state: directory
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     mode: '0755'
 
-- name: Check if clawdbot repository already exists
+- name: Check if openclaw repository already exists
   ansible.builtin.stat:
-    path: "{{ clawdbot_repo_dir }}/.git"
-  register: clawdbot_repo_exists
+    path: "{{ openclaw_repo_dir }}/.git"
+  register: openclaw_repo_exists
 
-- name: Clone clawdbot repository
+- name: Clone openclaw repository
   ansible.builtin.git:
-    repo: "{{ clawdbot_repo_url }}"
-    dest: "{{ clawdbot_repo_dir }}"
-    version: "{{ clawdbot_repo_branch }}"
+    repo: "{{ openclaw_repo_url }}"
+    dest: "{{ openclaw_repo_dir }}"
+    version: "{{ openclaw_repo_branch }}"
     update: true
   become: true
-  become_user: "{{ clawdbot_user }}"
-  when: not clawdbot_repo_exists.stat.exists
+  become_user: "{{ openclaw_user }}"
+  when: not openclaw_repo_exists.stat.exists
 
 - name: Pull latest changes if repo exists
   ansible.builtin.git:
-    repo: "{{ clawdbot_repo_url }}"
-    dest: "{{ clawdbot_repo_dir }}"
-    version: "{{ clawdbot_repo_branch }}"
+    repo: "{{ openclaw_repo_url }}"
+    dest: "{{ openclaw_repo_dir }}"
+    version: "{{ openclaw_repo_branch }}"
     update: true
   become: true
-  become_user: "{{ clawdbot_user }}"
-  when: clawdbot_repo_exists.stat.exists
+  become_user: "{{ openclaw_user }}"
+  when: openclaw_repo_exists.stat.exists
   register: git_pull_result
 
 - name: Display git pull status
   ansible.builtin.debug:
     msg: "Git repository updated: {{ git_pull_result.changed | default(false) }}"
-  when: clawdbot_repo_exists.stat.exists
+  when: openclaw_repo_exists.stat.exists
 
 - name: Install dependencies with pnpm
   ansible.builtin.shell:
     cmd: pnpm install
-    chdir: "{{ clawdbot_repo_dir }}"
+    chdir: "{{ openclaw_repo_dir }}"
     executable: /bin/bash
   become: true
-  become_user: "{{ clawdbot_user }}"
+  become_user: "{{ openclaw_user }}"
   environment:
-    PNPM_HOME: "{{ clawdbot_home }}/.local/share/pnpm"
-    PATH: "{{ clawdbot_home }}/.local/bin:{{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
-    HOME: "{{ clawdbot_home }}"
+    PNPM_HOME: "{{ openclaw_home }}/.local/share/pnpm"
+    PATH: "{{ openclaw_home }}/.local/bin:{{ openclaw_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+    HOME: "{{ openclaw_home }}"
   register: pnpm_install_result
   changed_when: "'Already up to date' not in pnpm_install_result.stdout"
 
-- name: Build clawdbot from source
+- name: Build openclaw from source
   ansible.builtin.shell:
     cmd: pnpm build
-    chdir: "{{ clawdbot_repo_dir }}"
+    chdir: "{{ openclaw_repo_dir }}"
     executable: /bin/bash
   become: true
-  become_user: "{{ clawdbot_user }}"
+  become_user: "{{ openclaw_user }}"
   environment:
-    PNPM_HOME: "{{ clawdbot_home }}/.local/share/pnpm"
-    PATH: "{{ clawdbot_home }}/.local/bin:{{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
-    HOME: "{{ clawdbot_home }}"
+    PNPM_HOME: "{{ openclaw_home }}/.local/share/pnpm"
+    PATH: "{{ openclaw_home }}/.local/bin:{{ openclaw_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+    HOME: "{{ openclaw_home }}"
   register: pnpm_build_result
   changed_when: true  # Build always changes dist/ directory
 
@@ -75,7 +75,7 @@
 
 - name: Check if dist directory exists
   ansible.builtin.stat:
-    path: "{{ clawdbot_repo_dir }}/dist"
+    path: "{{ openclaw_repo_dir }}/dist"
   register: dist_dir
 
 - name: Fail if build didn't create dist directory
@@ -83,60 +83,60 @@
     msg: "Build failed - dist directory not found"
   when: not dist_dir.stat.exists
 
-- name: Remove existing global clawdbot symlink (if any)
+- name: Remove existing global openclaw symlink (if any)
   ansible.builtin.file:
-    path: "{{ clawdbot_home }}/.local/bin/clawdbot"
+    path: "{{ openclaw_home }}/.local/bin/openclaw"
     state: absent
 
-- name: Create symlink to clawdbot binary
+- name: Create symlink to openclaw binary
   ansible.builtin.file:
-    src: "{{ clawdbot_repo_dir }}/bin/clawdbot.js"
-    dest: "{{ clawdbot_home }}/.local/bin/clawdbot"
+    src: "{{ openclaw_repo_dir }}/bin/openclaw.js"
+    dest: "{{ openclaw_home }}/.local/bin/openclaw"
     state: link
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     force: true
 
-- name: Make clawdbot binary executable
+- name: Make openclaw binary executable
   ansible.builtin.file:
-    path: "{{ clawdbot_repo_dir }}/bin/clawdbot.js"
+    path: "{{ openclaw_repo_dir }}/bin/openclaw.js"
     mode: '0755'
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
 
-- name: Verify clawdbot installation from development build
+- name: Verify openclaw installation from development build
   ansible.builtin.shell:
-    cmd: clawdbot --version
+    cmd: openclaw --version
     executable: /bin/bash
   become: true
-  become_user: "{{ clawdbot_user }}"
+  become_user: "{{ openclaw_user }}"
   environment:
-    PNPM_HOME: "{{ clawdbot_home }}/.local/share/pnpm"
-    PATH: "{{ clawdbot_home }}/.local/bin:{{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
-    HOME: "{{ clawdbot_home }}"
-  register: clawdbot_dev_version
+    PNPM_HOME: "{{ openclaw_home }}/.local/share/pnpm"
+    PATH: "{{ openclaw_home }}/.local/bin:{{ openclaw_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+    HOME: "{{ openclaw_home }}"
+  register: openclaw_dev_version
   changed_when: false
 
 - name: Display installed OpenClaw version (development build)
   ansible.builtin.debug:
     msg: |
-      ✅ OpenClaw installed from source: {{ clawdbot_dev_version.stdout }}
-      📂 Repository: {{ clawdbot_repo_dir }}
-      🔗 Binary: {{ clawdbot_home }}/.local/bin/clawdbot -> {{ clawdbot_repo_dir }}/bin/clawdbot.js
+      ✅ OpenClaw installed from source: {{ openclaw_dev_version.stdout }}
+      📂 Repository: {{ openclaw_repo_dir }}
+      🔗 Binary: {{ openclaw_home }}/.local/bin/openclaw -> {{ openclaw_repo_dir }}/bin/openclaw.js
 
 - name: Add development mode info to .bashrc
   ansible.builtin.blockinfile:
-    path: "{{ clawdbot_home }}/.bashrc"
+    path: "{{ openclaw_home }}/.bashrc"
     marker: "# {mark} ANSIBLE MANAGED BLOCK - OpenClaw development"
     block: |
       # OpenClaw development mode
-      export CLAWDBOT_DEV_DIR="{{ clawdbot_repo_dir }}"
+      export CLAWDBOT_DEV_DIR="{{ openclaw_repo_dir }}"
 
       # Aliases for development
-      alias clawdbot-rebuild='cd {{ clawdbot_repo_dir }} && pnpm build'
-      alias clawdbot-dev='cd {{ clawdbot_repo_dir }}'
-      alias clawdbot-pull='cd {{ clawdbot_repo_dir }} && git pull && pnpm install && pnpm build'
+      alias openclaw-rebuild='cd {{ openclaw_repo_dir }} && pnpm build'
+      alias openclaw-dev='cd {{ openclaw_repo_dir }}'
+      alias openclaw-pull='cd {{ openclaw_repo_dir }} && git pull && pnpm install && pnpm build'
     create: true
-    owner: "{{ clawdbot_user }}"
-    group: "{{ clawdbot_user }}"
+    owner: "{{ openclaw_user }}"
+    group: "{{ openclaw_user }}"
     mode: '0644'

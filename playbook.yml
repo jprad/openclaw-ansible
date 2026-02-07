@@ -75,12 +75,12 @@
       changed_when: false
 
   roles:
-    - clawdbot
+    - openclaw
 
   post_tasks:
     - name: Copy ASCII art script
       ansible.builtin.template:
-        src: roles/clawdbot/templates/show-lobster.sh.j2
+        src: roles/openclaw/templates/show-lobster.sh.j2
         dest: /tmp/show-lobster.sh
         mode: '0755'
 
@@ -88,11 +88,11 @@
       ansible.builtin.command: /tmp/show-lobster.sh
       changed_when: false
 
-    - name: Create one-time welcome message for clawdbot user
+    - name: Create one-time welcome message for openclaw user
       ansible.builtin.copy:
-        dest: "{{ clawdbot_home }}/.clawdbot-welcome"
-        owner: "{{ clawdbot_user }}"
-        group: "{{ clawdbot_user }}"
+        dest: "{{ openclaw_home }}/.openclaw-welcome"
+        owner: "{{ openclaw_user }}"
+        group: "{{ openclaw_user }}"
         mode: '0644'
         content: |
           echo ""
@@ -107,13 +107,13 @@
           echo "Environment is configured:"
           echo "  ✓ XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR:-not set}"
           echo "  ✓ DBUS_SESSION_BUS_ADDRESS: ${DBUS_SESSION_BUS_ADDRESS:-not set}"
-          echo "  ✓ OpenClaw: $(clawdbot --version 2>/dev/null || echo 'not found')"
+          echo "  ✓ OpenClaw: $(openclaw --version 2>/dev/null || echo 'not found')"
           echo ""
           echo "────────────────────────────────────────────────────────"
           echo "🚀 Quick Start - Run This Command:"
           echo "────────────────────────────────────────────────────────"
           echo ""
-          echo "    clawdbot onboard --install-daemon"
+          echo "    openclaw onboard --install-daemon"
           echo ""
           echo "This will:"
           echo "  • Guide you through the setup wizard"
@@ -125,32 +125,32 @@
           echo "────────────────────────────────────────────────────────"
           echo ""
           echo "1️⃣  Interactive onboarding (recommended):"
-          echo "    clawdbot onboard --install-daemon"
+          echo "    openclaw onboard --install-daemon"
           echo ""
           echo "2️⃣  Manual configuration:"
-          echo "    clawdbot configure"
+          echo "    openclaw configure"
           echo "    nano ~/.openclaw/openclaw.json"
           echo ""
           echo "3️⃣  Login to messaging provider:"
-          echo "    clawdbot providers login"
+          echo "    openclaw providers login"
           echo ""
           echo "4️⃣  Test the gateway:"
-          echo "    clawdbot gateway"
+          echo "    openclaw gateway"
           echo ""
           echo "5️⃣  Install as daemon (if not using onboard):"
-          echo "    clawdbot daemon install"
-          echo "    clawdbot daemon start"
+          echo "    openclaw daemon install"
+          echo "    openclaw daemon start"
           echo ""
           echo "────────────────────────────────────────────────────────"
           echo "🔧 Useful Commands:"
           echo "────────────────────────────────────────────────────────"
           echo ""
-          echo "  • View logs:        clawdbot logs"
-          echo "  • Check status:     clawdbot status"
-          echo "  • Stop daemon:      clawdbot daemon stop"
-          echo "  • Restart daemon:   clawdbot daemon restart"
-          echo "  • Troubleshoot:     clawdbot doctor"
-          echo "  • List agents:      clawdbot agents list"
+          echo "  • View logs:        openclaw logs"
+          echo "  • Check status:     openclaw status"
+          echo "  • Stop daemon:      openclaw daemon stop"
+          echo "  • Restart daemon:   openclaw daemon restart"
+          echo "  • Troubleshoot:     openclaw doctor"
+          echo "  • List agents:      openclaw agents list"
           echo ""
           {% if tailscale_enabled | default(false) %}echo "────────────────────────────────────────────────────────"
           echo "🌐 Connect Tailscale VPN (optional):"
@@ -164,12 +164,12 @@
           echo "Type 'exit' to return to your previous user"
           echo ""
           # Remove welcome message (suppress errors if already deleted)
-          rm -f "$HOME/.clawdbot-welcome" 2>/dev/null || true
+          rm -f "$HOME/.openclaw-welcome" 2>/dev/null || true
 
     - name: Add welcome message to .bashrc
       ansible.builtin.lineinfile:
-        path: "{{ clawdbot_home }}/.bashrc"
-        line: '[ -f ~/.clawdbot-welcome ] && source ~/.clawdbot-welcome'
+        path: "{{ openclaw_home }}/.bashrc"
+        line: '[ -f ~/.openclaw-welcome ] && source ~/.openclaw-welcome'
         state: present
         insertafter: EOF
 

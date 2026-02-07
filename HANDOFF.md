@@ -68,12 +68,12 @@ Update these files to reflect that macOS support has been **removed**, not "comi
 ## macOS Restoration Context
 
 **What was deleted** (commit `a1c9b7d`):
-- `roles/clawdbot/tasks/firewall-macos.yml`
-- `roles/clawdbot/tasks/system-tools-macos.yml`
-- `roles/clawdbot/tasks/docker-macos.yml`
-- `roles/clawdbot/tasks/tailscale-macos.yml`
+- `roles/openclaw/tasks/firewall-macos.yml`
+- `roles/openclaw/tasks/system-tools-macos.yml`
+- `roles/openclaw/tasks/docker-macos.yml`
+- `roles/openclaw/tasks/tailscale-macos.yml`
 
-**How to recover**: `git show a1c9b7d^:roles/clawdbot/tasks/firewall-macos.yml`
+**How to recover**: `git show a1c9b7d^:roles/openclaw/tasks/firewall-macos.yml`
 
 **Main challenge**: Linux has 8-layer security hardening. macOS needs equivalent protections:
 - UFW → pf (Packet Filter) - **HARD** (complex rule syntax, Docker Desktop integration)
@@ -104,17 +104,17 @@ The Linux version has robust 8-layer security hardening. The macOS implementatio
 ## What Was Removed
 
 **Deleted files**:
-- `roles/clawdbot/tasks/firewall-macos.yml`
-- `roles/clawdbot/tasks/system-tools-macos.yml`
-- `roles/clawdbot/tasks/docker-macos.yml`
-- `roles/clawdbot/tasks/tailscale-macos.yml`
+- `roles/openclaw/tasks/firewall-macos.yml`
+- `roles/openclaw/tasks/system-tools-macos.yml`
+- `roles/openclaw/tasks/docker-macos.yml`
+- `roles/openclaw/tasks/tailscale-macos.yml`
 
 **Removed features**:
 - macOS OS detection in `playbook.yml`
 - Homebrew and zsh configuration
 - Application Firewall basic setup
 
-**Recovery**: Use `git show a1c9b7d^:roles/clawdbot/tasks/[filename]` to view deleted files.
+**Recovery**: Use `git show a1c9b7d^:roles/openclaw/tasks/[filename]` to view deleted files.
 
 ## Security Requirements
 
@@ -221,10 +221,10 @@ Test harness files:
 
 ```
 Recoverable from git history:
-- roles/clawdbot/tasks/firewall-macos.yml
-- roles/clawdbot/tasks/system-tools-macos.yml
-- roles/clawdbot/tasks/docker-macos.yml
-- roles/clawdbot/tasks/tailscale-macos.yml
+- roles/openclaw/tasks/firewall-macos.yml
+- roles/openclaw/tasks/system-tools-macos.yml
+- roles/openclaw/tasks/docker-macos.yml
+- roles/openclaw/tasks/tailscale-macos.yml
 ```
 
 ## Notes for Coworker

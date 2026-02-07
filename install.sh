@@ -93,4 +93,4 @@ echo ""
 cd /
 rm -rf "$TEMP_DIR"
 
-# run-playbook.sh will display instructions to switch to clawdbot user
+# run-playbook.sh will display instructions to switch to openclaw user

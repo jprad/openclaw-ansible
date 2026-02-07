@@ -1,32 +1,32 @@
 ---
 # Release mode installation - Install via pnpm from npm registry
 
-- name: Install OpenClaw globally as clawdbot user (using pnpm)
+- name: Install OpenClaw globally as openclaw user (using pnpm)
   ansible.builtin.shell:
-    cmd: pnpm install -g clawdbot@latest
+    cmd: pnpm install -g openclaw@latest
     executable: /bin/bash
   become: true
-  become_user: "{{ clawdbot_user }}"
+  become_user: "{{ openclaw_user }}"
   environment:
-    PNPM_HOME: "{{ clawdbot_home }}/.local/share/pnpm"
-    PATH: "{{ clawdbot_home }}/.local/bin:{{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
-    HOME: "{{ clawdbot_home }}"
-  register: clawdbot_install
-  changed_when: "'Already up to date' not in clawdbot_install.stdout"
+    PNPM_HOME: "{{ openclaw_home }}/.local/share/pnpm"
+    PATH: "{{ openclaw_home }}/.local/bin:{{ openclaw_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+    HOME: "{{ openclaw_home }}"
+  register: openclaw_install
+  changed_when: "'Already up to date' not in openclaw_install.stdout"
 
-- name: Verify clawdbot installation
+- name: Verify openclaw installation
   ansible.builtin.shell:
-    cmd: clawdbot --version
+    cmd: openclaw --version
     executable: /bin/bash
   become: true
-  become_user: "{{ clawdbot_user }}"
+  become_user: "{{ openclaw_user }}"
   environment:
-    PNPM_HOME: "{{ clawdbot_home }}/.local/share/pnpm"
-    PATH: "{{ clawdbot_home }}/.local/bin:{{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
-    HOME: "{{ clawdbot_home }}"
-  register: clawdbot_version
+    PNPM_HOME: "{{ openclaw_home }}/.local/share/pnpm"
+    PATH: "{{ openclaw_home }}/.local/bin:{{ openclaw_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+    HOME: "{{ openclaw_home }}"
+  register: openclaw_version
   changed_when: false
 
 - name: Display installed OpenClaw version (release)
   ansible.builtin.debug:
-    msg: "✅ OpenClaw installed from npm: {{ clawdbot_version.stdout }}"
+    msg: "✅ OpenClaw installed from npm: {{ openclaw_version.stdout }}"

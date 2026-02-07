@@ -25,7 +25,7 @@ description: Technical implementation details
                │
 ┌──────────────┴──────────────────────────┐
 │ OpenClaw Container                       │
-│ User: clawdbot                           │
+│ User: openclaw                           │
 │ Port: 127.0.0.1:3000                     │
 └──────────────────────────────────────────┘
 ```
@@ -33,17 +33,17 @@ description: Technical implementation details
 ## File Structure
 
 ```
-/opt/clawdbot/
+/opt/openclaw/
 ├── Dockerfile
 ├── docker-compose.yml
 
-/home/clawdbot/.clawdbot/
+/home/openclaw/.openclaw/
 ├── config.yml
 ├── sessions/
 └── credentials/
 
 /etc/systemd/system/
-└── clawdbot.service
+└── openclaw.service
 
 /etc/docker/
 └── daemon.json
@@ -58,14 +58,14 @@ OpenClaw runs as a systemd service that manages the Docker container:
 
 ```bash
 # Systemd controls Docker Compose
-systemd → docker compose → clawdbot container
+systemd → docker compose → openclaw container
 ```
 
 ## Installation Flow
 
 1. **System Tools Setup** (`system-tools.yml` → `system-tools-linux.yml`)
    - Install essential packages (git, vim, curl, etc.)
-   - Configure .bashrc for clawdbot user
+   - Configure .bashrc for openclaw user
 
 2. **Tailscale Setup** (`tailscale-linux.yml`) - **OPTIONAL (disabled by default)**
    - Enabled via `tailscale_enabled: true`
@@ -74,7 +74,7 @@ systemd → docker compose → clawdbot container
    - Display connection instructions
 
 3. **User Creation** (`user.yml`)
-   - Create `clawdbot` system user
+   - Create `openclaw` system user
    - Configure sudo permissions
    - Set up SSH keys
 
@@ -95,7 +95,7 @@ systemd → docker compose → clawdbot container
    - Install Node.js 22.x
    - Install pnpm globally
 
-7. **OpenClaw Setup** (`clawdbot.yml`)
+7. **OpenClaw Setup** (`openclaw.yml`)
    - Create directories
    - Install via pnpm (release mode) or build from source (development mode)
    - Configure systemd service
@@ -127,11 +127,11 @@ Principle of least privilege. If container is compromised, attacker has limited 
 main.yml
 ├── system-tools.yml → system-tools-linux.yml (essential packages)
 ├── tailscale-linux.yml (VPN setup - optional, skipped if tailscale_enabled: false)
-├── user.yml (create clawdbot user)
+├── user.yml (create openclaw user)
 ├── docker-linux.yml (install Docker, create /etc/docker)
 ├── firewall-linux.yml (configure UFW + Docker daemon + fail2ban)
 ├── nodejs.yml (Node.js + pnpm)
-└── clawdbot.yml (release or development installation)
+└── openclaw.yml (release or development installation)
 ```
 
 Order matters: Docker must be installed before firewall configuration because:

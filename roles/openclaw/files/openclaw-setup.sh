@@ -48,13 +48,13 @@ echo ""
 echo -e "📚 Documentation: ${GREEN}https://docs.clawd.bot${NC}"
 echo ""
 
-# Switch to clawdbot user for setup
-echo -e "${YELLOW}Switching to clawdbot user for setup...${NC}"
+# Switch to openclaw user for setup
+echo -e "${YELLOW}Switching to openclaw user for setup...${NC}"
 echo ""
 echo "DEBUG: About to create init script..."
 
 # Create init script that will be sourced on login
-cat > /home/clawdbot/.clawdbot-init << 'INIT_EOF'
+cat > /home/openclaw/.openclaw-init << 'INIT_EOF'
 # Display welcome message
 echo "============================================"
 echo "📋 OpenClaw Setup - Next Steps"
@@ -66,18 +66,18 @@ echo ""
 echo "🔧 Setup Commands:"
 echo ""
 echo "1. Configure OpenClaw:"
-echo "   nano ~/.clawdbot/config.yml"
+echo "   nano ~/.openclaw/config.yml"
 echo ""
 echo "2. Login to provider (WhatsApp/Telegram/Signal):"
-echo "   clawdbot login"
+echo "   openclaw login"
 echo ""
 echo "3. Test gateway:"
-echo "   clawdbot gateway"
+echo "   openclaw gateway"
 echo ""
 echo "4. Exit and manage as service:"
 echo "   exit"
-echo "   sudo systemctl status clawdbot"
-echo "   sudo journalctl -u clawdbot -f"
+echo "   sudo systemctl status openclaw"
+echo "   sudo journalctl -u openclaw -f"
 echo ""
 echo "5. Connect Tailscale (as root):"
 echo "   exit"
@@ -89,18 +89,18 @@ echo "Type 'exit' to return to previous user"
 echo ""
 
 # Remove this init file after first login
-rm -f ~/.clawdbot-init
+rm -f ~/.openclaw-init
 INIT_EOF
 
-chown clawdbot:clawdbot /home/clawdbot/.clawdbot-init
+chown openclaw:openclaw /home/openclaw/.openclaw-init
 
 # Add one-time sourcing to .bashrc if not already there
-grep -q '.clawdbot-init' /home/clawdbot/.bashrc 2>/dev/null || {
-    echo '' >> /home/clawdbot/.bashrc
-    echo '# One-time setup message' >> /home/clawdbot/.bashrc
-    echo '[ -f ~/.clawdbot-init ] && source ~/.clawdbot-init' >> /home/clawdbot/.bashrc
+grep -q '.openclaw-init' /home/openclaw/.bashrc 2>/dev/null || {
+    echo '' >> /home/openclaw/.bashrc
+    echo '# One-time setup message' >> /home/openclaw/.bashrc
+    echo '[ -f ~/.openclaw-init ] && source ~/.openclaw-init' >> /home/openclaw/.bashrc
 }
 
-# Switch to clawdbot user with explicit interactive shell
+# Switch to openclaw user with explicit interactive shell
 # Using setsid to create new session + force pseudo-terminal allocation
-exec sudo -i -u clawdbot /bin/bash --login
+exec sudo -i -u openclaw /bin/bash --login
